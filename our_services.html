@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Our Services</title>
+
+  <style>
+    :root{
+        --primary:#8c1c13;
+        --primary-light:#bf4342;
+        --cream:#f7f4ef;
+        --text:#2b2b2b;
+        --radius:16px;
+        --shadow:0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    body{
+        margin:0;
+        padding:0;
+        font-family:"Poppins",sans-serif;
+        background:var(--cream);
+        color:var(--text);
+    }
+
+    /* MAIN WRAPPER */
+    .wrap{
+        width:90%;
+        max-width:1100px;
+        margin:28px auto;
+        text-align:center;
+    }
+
+    h1{
+        font-size:32px;
+        font-weight:700;
+        color:var(--primary);
+        margin-bottom:10px;
+    }
+
+    p{
+        color:#555;
+        margin-bottom:28px;
+        font-size:15px;
+    }
+
+    /* GRID */
+    .services-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:24px;
+    }
+
+    /* CARD */
+    .service-card{
+        background:#fff;
+        border-radius:var(--radius);
+        box-shadow:var(--shadow);
+        overflow:hidden;
+        cursor:pointer;
+        transition:.3s;
+        text-align:center;
+        border:1px solid rgba(0,0,0,0.05);
+    }
+
+    .service-card:hover{
+        transform:translateY(-6px);
+        box-shadow:0 12px 32px rgba(0,0,0,0.18);
+    }
+
+    .service-card img{
+        width:100%;
+        height:180px;
+        object-fit:cover;
+        border-bottom:1px solid #eee;
+    }
+
+    .service-card h3{
+        margin:14px 0 18px;
+        color:var(--primary);
+        font-size:18px;
+        font-weight:600;
+    }
+  </style>
+</head>
+
+<body>
+<script src="global.js"></script>
+<script>ensureNavbar();</script>
+
+<div class="wrap">
+
+    <h1>Our Services</h1>
+    <p>Select a service to continue — login is required before booking.</p>
+
+    <div class="services-grid">
+
+        <div class="service-card" onclick="goTo('Marriage.html')">
+            <img src="assets/marriage-img.jpg" alt="Marriage">
+            <h3>Marriage</h3>
+        </div>
+
+        <div class="service-card" onclick="goTo('Birthday.html')">
+            <img src="assets/birthday-img.jpg" alt="Birthday">
+            <h3>Birthday</h3>
+        </div>
+
+        <div class="service-card" onclick="goTo('anniversary.html')">
+            <img src="assets/anniversery-img.jpg" alt="Anniversary">
+            <h3>Anniversary</h3>
+        </div>
+
+        <div class="service-card" onclick="goTo('Corporate.html')">
+            <img src="assets/corporate-img.jpg" alt="Corporate">
+            <h3>Corporate</h3>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function goTo(page){
+    const user = _cep.getCurrentUser();
+    if(!user){
+        if(!confirm("You must sign in to continue. Go to Sign-in?")) return;
+        window.location.href = "signin.html";
+        return;
+    }
+    window.location.href = page;
+}
+</script>
+
+</body>
+</html>

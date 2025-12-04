@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corporate Event Booking</title>
+
+<style>
+/* ================= GLOBAL PREMIUM UI ================= */
+:root{
+    --primary:#8c1c13;
+    --primary-light:#bf4342;
+    --cream:#f3e9dc;
+    --text:#2b2b2b;
+    --white:#fff;
+    --radius:14px;
+    --shadow:0 6px 22px rgba(0,0,0,0.14);
+}
+
+/* BODY */
+body{
+    margin:0;
+    padding:0;
+    font-family:"Poppins",sans-serif;
+    background:var(--cream);
+    color:var(--text);
+}
+
+/* MAIN CARD */
+.card{
+    max-width:900px;
+    margin:25px auto;
+    background:var(--white);
+    padding:28px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+}
+
+/* HEADING */
+h1{
+    font-size:30px;
+    color:var(--primary);
+    text-align:center;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+/* LABEL */
+label{
+    font-weight:600;
+    font-size:15px;
+    color:#555;
+}
+
+/* INPUTS */
+input, select, textarea{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    margin-bottom:16px;
+    border-radius:var(--radius);
+    border:1.7px solid #cfcfcf;
+    background:#fffdfb;
+    font-size:15px;
+    transition:.25s;
+}
+input:focus, select:focus, textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 6px rgba(140,28,19,0.3);
+    outline:none;
+}
+
+/* OPTION BUTTONS */
+.selection-links a{
+    display:inline-block;
+    padding:10px 16px;
+    background:white;
+    border-radius:10px;
+    border:1.6px solid #ddd;
+    margin-right:8px;
+    font-weight:500;
+    text-decoration:none;
+    color:#444;
+    transition:.25s;
+}
+.selection-links a:hover{
+    border-color:var(--primary);
+    color:var(--primary);
+    box-shadow:var(--shadow);
+    transform:translateY(-2px);
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:14px;
+    background:var(--primary);
+    color:white;
+    border:none;
+    border-radius:var(--radius);
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+button:hover{
+    background:var(--primary-light);
+    transform:translateY(-2px);
+    box-shadow:var(--shadow);
+}
+</style>
+</head>
+
+<body>
+
+<script src="global.js"></script>
+<script>ensureNavbar(); if(!requireLogin()){} </script>
+
+<div class="card">
+
+    <h1>Corporate Event Booking</h1>
+
+    <!-- SHOW SELECTED HALL/FOOD HERE (JS will insert automatically) -->
+    <div id="selectedBox"></div>
+
+    <label>Full Name</label>
+    <input id="c_name" placeholder="Enter full name">
+
+    <label>Company Name</label>
+    <input id="c_company" placeholder="Enter company name">
+
+    <label>Email</label>
+    <input id="c_email" type="email" placeholder="Enter your email">
+
+    <label>Phone</label>
+    <input id="c_phone" placeholder="Enter phone number">
+
+    <label>Select Event Type</label>
+    <select id="c_type">
+        <option value="">-- Choose --</option>
+        <option>Conference</option>
+        <option>Product Launch</option>
+        <option>Meeting</option>
+        <option>Team Building</option>
+        <option>Award Ceremony</option>
+    </select>
+
+    <!-- HALL + FOOD SELECT LINKS -->
+    <div class="selection-links" style="margin:12px 0;">
+        <a href="C_hall.html">Select Hall</a>
+        <a href="C_Food.html">Select Food</a>
+    </div>
+
+    <label>Event Date</label>
+    <input id="c_date" type="date">
+
+    <label>Additional Requirements</label>
+    <textarea id="c_notes" rows="3" placeholder="Any special arrangements?"></textarea>
+
+    <button id="c_submit">Submit Booking</button>
+</div>
+
+<script>
+// ====== AUTO-SHOW SELECTED HALL/FOOD WITHOUT BREAKING CSS ======
+window.addEventListener("DOMContentLoaded", function() {
+    const hall = localStorage.getItem("cep_corporate_hall");
+    const food = localStorage.getItem("cep_corporate_food");
+
+    if(!hall && !food) return;
+
+    const box = document.createElement("div");
+    box.style.padding = "14px";
+    box.style.border = "1.5px dashed #8c1c13";
+    box.style.borderRadius = "12px";
+    box.style.marginBottom = "18px";
+    box.style.background = "#fff7f4";
+
+    box.innerHTML = `
+        <h3 style="margin:0 0 8px;color:#8c1c13;">Your selections</h3>
+        <p style="margin:4px 0;"><strong>Hall:</strong> ${hall || "Not selected"}</p>
+        <p style="margin:4px 0;"><strong>Food:</strong> ${food || "Not selected"}</p>
+    `;
+
+    document.getElementById("selectedBox").appendChild(box);
+});
+</script>
+
+<script>
+// ====== SUBMIT BOOKING ======
+document.getElementById("c_submit").addEventListener("click", function(){
+
+  if(!requireLogin()) return;
+
+  const name = document.getElementById("c_name").value.trim();
+  const company = document.getElementById("c_company").value.trim();
+  const email = document.getElementById("c_email").value.trim();
+  const phone = document.getElementById("c_phone").value.trim();
+  const type = document.getElementById("c_type").value;
+  const date = document.getElementById("c_date").value;
+  const notes = document.getElementById("c_notes").value.trim();
+
+  const hall = localStorage.getItem("cep_corporate_hall");
+  const food = localStorage.getItem("cep_corporate_food");
+
+  if(!hall){
+     alert("Please select hall");
+     return;
+  }
+
+  if(!food){
+     alert("Please select food");
+     return;
+  }
+
+  if(!name || !company || !email || !phone || !type || !date){
+      alert("Please fill all required fields.");
+      return;
+  }
+
+  saveBooking({
+    eventType:"Corporate",
+    name, company, email, phone, type, date, notes,
+    hall, food, total:"N/A"
+  });
+
+  // cleanup
+  localStorage.removeItem("cep_corporate_hall");
+  localStorage.removeItem("cep_corporate_food");
+
+  alert("Corporate Booking Saved Successfully!");
+  window.location.href="index.html";
+});
+</script>
+
+</body>
+</html>

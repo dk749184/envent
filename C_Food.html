@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Corporate Food</title>
+
+<style>
+/* ================= GLOBAL PREMIUM UI ================= */
+:root{
+    --primary:#8c1c13;
+    --primary-light:#bf4342;
+    --cream:#f3e9dc;
+    --text:#2b2b2b;
+    --white:#fff;
+    --radius:14px;
+    --shadow:0 6px 20px rgba(0,0,0,0.12);
+}
+
+/* BODY */
+body{
+    margin:0;
+    padding:0;
+    font-family:"Poppins",sans-serif;
+    background:linear-gradient(135deg,#ffe6e6,#fff2cc,#e6f7ff);
+    color:var(--text);
+}
+
+/* CONTAINER CARD */
+.card{
+    max-width:900px;
+    margin:40px auto;
+    background:var(--white);
+    padding:32px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+.card:hover{ transform:translateY(-3px); }
+
+/* TITLE */
+h1{
+    margin:0 0 20px 0;
+    font-size:30px;
+    font-weight:700;
+    text-align:center;
+    color:var(--primary);
+}
+
+/* RADIO OPTION CARD */
+.option{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#fffaf7;
+    padding:16px;
+    border-radius:var(--radius);
+    border:2px solid transparent;
+    margin-bottom:14px;
+    transition:.25s;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+}
+
+.option:hover{
+    border-color:var(--primary-light);
+    transform:translateY(-2px);
+}
+
+.option input{
+    transform:scale(1.3);
+    accent-color:var(--primary);
+}
+
+/* BUTTON */
+button{
+    margin-top:20px;
+    width:100%;
+    padding:14px;
+    background:var(--primary);
+    border:none;
+    border-radius:var(--radius);
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:600;
+    transition:.3s;
+    letter-spacing:.5px;
+}
+button:hover{
+    background:var(--primary-light);
+    transform:translateY(-3px);
+    box-shadow:var(--shadow);
+}
+
+/* Responsive */
+@media(max-width:600px){
+    .card{ padding:22px; }
+    h1{ font-size:24px; }
+}
+</style>
+
+</head>
+<body>
+
+<script src="global.js"></script>
+<script>ensureNavbar(); if(!requireLogin()){};</script>
+
+<div class="card">
+  <h1>Corporate Food Selection</h1>
+
+  <form id="foodForm">
+
+      <label class="option">
+          <input type="radio" name="food" value="Standard Veg Buffet - ₹500 per plate">
+          <span><strong>Standard Veg Buffet</strong> — ₹500 / plate</span>
+      </label>
+
+      <label class="option">
+          <input type="radio" name="food" value="Premium Veg Buffet - ₹700 per plate">
+          <span><strong>Premium Veg Buffet</strong> — ₹700 / plate</span>
+      </label>
+
+      <label class="option">
+          <input type="radio" name="food" value="Standard Non-Veg Buffet - ₹800 per plate">
+          <span><strong>Standard Non-Veg Buffet</strong> — ₹800 / plate</span>
+      </label>
+
+      <label class="option">
+          <input type="radio" name="food" value="Premium Non-Veg Buffet - ₹1100 per plate">
+          <span><strong>Premium Non-Veg Buffet</strong> — ₹1100 / plate</span>
+      </label>
+
+      <button type="submit">Save & Go Back</button>
+
+  </form>
+
+</div>
+
+<script>
+document.getElementById("foodForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const sel = document.querySelector('input[name="food"]:checked');
+  if(!sel){ alert("Please select a food option."); return; }
+
+  localStorage.setItem("cep_corporate_food", sel.value);
+  alert("Food option saved successfully. Now go back to Corporate Booking and submit.");
+  window.location.href = "corporate.html";
+});
+</script>
+
+</body>
+</html>

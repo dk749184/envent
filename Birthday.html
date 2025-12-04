@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Birthday Booking</title>
+
+<style>
+/* ===================== GLOBAL PREMIUM PALETTE ===================== */
+:root{
+    --primary:#8c1c13;
+    --primary-light:#bf4342;
+    --cream:#f3e9dc;
+    --white:#fff;
+    --radius:14px;
+    --shadow:0 8px 24px rgba(0,0,0,0.12);
+    --text:#2c2c2c;
+}
+
+/* ===================== GLOBAL BODY ===================== */
+body{
+    margin:0;
+    padding:0;
+    background:linear-gradient(135deg, #ffe6e6, #fff2cc, #d7f8ff);
+    font-family:"Poppins",sans-serif;
+    color:var(--text);
+}
+
+/* ===================== CARD WRAPPER ===================== */
+.card{
+    max-width:900px;
+    margin:40px auto;
+    background:var(--white);
+    padding:32px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+.card:hover{ transform:translateY(-3px); }
+
+/* ===================== TITLE ===================== */
+h1{
+    text-align:center;
+    margin-bottom:22px;
+    font-size:30px;
+    font-weight:700;
+    color:var(--primary);
+}
+
+/* ===================== SECTION HEADING ===================== */
+h3{
+    margin-top:32px;
+    font-size:20px;
+    font-weight:600;
+    color:var(--primary);
+    border-left:6px solid var(--primary-light);
+    padding-left:12px;
+}
+
+/* ===================== INPUTS ===================== */
+label{
+    font-size:15px;
+    margin-top:12px;
+    display:block;
+    font-weight:500;
+}
+
+input[type="text"], input[type="number"], input[type="date"]{
+    width:100%;
+    padding:12px;
+    border-radius:var(--radius);
+    border:1.8px solid #ccc;
+    margin-top:6px;
+    transition:.3s;
+}
+input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 8px rgba(140,28,19,.4);
+    outline:none;
+}
+
+/* ===================== RADIO OPTION CARD ===================== */
+.radio-row label{
+    display:block;
+    background:#fffaf7;
+    padding:14px;
+    margin:10px 0;
+    border-radius:var(--radius);
+    border:2px solid transparent;
+    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    cursor:pointer;
+    transition:.25s;
+}
+
+.radio-row label:hover{
+    border-color:var(--primary-light);
+    transform:translateY(-2px);
+}
+
+input[type="radio"]{
+    transform:scale(1.2);
+    margin-right:10px;
+    accent-color:var(--primary);
+}
+
+/* ===================== TOTAL BOX ===================== */
+.total-box{
+    margin-top:20px;
+    padding:16px;
+    background:#fdf7f6;
+    border-radius:var(--radius);
+    font-size:18px;
+    font-weight:600;
+    color:var(--primary);
+    box-shadow:var(--shadow);
+}
+
+/* ===================== BUTTON ===================== */
+button{
+    width:100%;
+    padding:14px;
+    margin-top:28px;
+    border:none;
+    border-radius:var(--radius);
+    background:var(--primary);
+    color:white;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    letter-spacing:.6px;
+    transition:.3s;
+}
+
+button:hover{
+    background:var(--primary-light);
+    transform:translateY(-3px);
+    box-shadow:var(--shadow);
+}
+
+/* Responsive */
+@media(max-width:600px){
+    .card{ padding:22px; }
+    h1{ font-size:24px; }
+    button{ font-size:16px; }
+}
+</style>
+</head>
+
+<body>
+<script src="global.js"></script>
+<script>ensureNavbar(); if(!requireLogin()){};</script>
+
+<div class="card">
+
+  <h1>🎉 Birthday Event Booking</h1>
+
+  <!-- PERSONAL DETAILS -->
+  <label>Name</label>
+  <input id="b_name" placeholder="Enter full name">
+
+  <label>Phone</label>
+  <input id="b_phone" placeholder="Enter phone number">
+
+  <label>Date of Event</label>
+  <input id="b_date" type="date">
+
+  <!-- HALL SELECTION -->
+  <h3>🏛 Hall Selection</h3>
+  <div class="radio-row">
+      <label><input type="radio" name="bhall" value="12000"> Kids Theme Hall — ₹12,000</label>
+      <label><input type="radio" name="bhall" value="15000"> Balloon Décor Hall — ₹15,000</label>
+      <label><input type="radio" name="bhall" value="25000"> Premium Celebration Hall — ₹25,000</label>
+  </div>
+
+  <!-- FOOD -->
+  <h3>🍽 Catering</h3>
+  <div class="radio-row">
+      <label><input type="radio" name="bfood" value="500"> Kids Snacks — ₹500 / person</label>
+      <label><input type="radio" name="bfood" value="900"> Birthday Buffet — ₹900 / person</label>
+      <label><input type="radio" name="bfood" value="1400"> Premium Catering — ₹1400 / person</label>
+  </div>
+
+  <!-- DECOR -->
+  <h3>🎈 Decoration</h3>
+  <div class="radio-row">
+      <label><input type="radio" name="bdecor" value="5000"> Balloon Décor — ₹5,000</label>
+      <label><input type="radio" name="bdecor" value="10000"> Cartoon Theme — ₹10,000</label>
+      <label><input type="radio" name="bdecor" value="18000"> LED Backdrop — ₹18,000</label>
+  </div>
+
+  <label>Guests</label>
+  <input id="b_guests" type="number" value="50">
+
+  <!-- TOTAL -->
+  <div class="total-box">
+      Total: <span id="b_total">₹0</span>
+  </div>
+
+  <button id="b_confirm">Submit Booking</button>
+
+</div>
+
+<script>
+function calcBirthday(){
+  const hall=document.querySelector('input[name="bhall"]:checked');
+  const food=document.querySelector('input[name="bfood"]:checked');
+  const decor=document.querySelector('input[name="bdecor"]:checked');
+  const guests=Number(document.getElementById("b_guests").value||0);
+
+  let total=0;
+  if(hall) total+=Number(hall.value);
+  if(food) total+=Number(food.value)*guests;
+  if(decor) total+=Number(decor.value);
+
+  document.getElementById("b_total").innerText="₹" + total.toLocaleString('en-IN');
+  return total;
+}
+
+document.addEventListener("change", calcBirthday);
+document.getElementById("b_guests").addEventListener("input", calcBirthday);
+
+/* SUBMIT */
+document.getElementById("b_confirm").addEventListener("click", function(){
+  if(!requireLogin()) return;
+
+  const name=document.getElementById("b_name").value.trim();
+  const phone=document.getElementById("b_phone").value.trim();
+  const date=document.getElementById("b_date").value;
+
+  const hallEl=document.querySelector('input[name="bhall"]:checked');
+  const foodEl=document.querySelector('input[name="bfood"]:checked');
+  const decorEl=document.querySelector('input[name="bdecor"]:checked');
+
+  if(!name||!phone||!date||!hallEl||!foodEl||!decorEl){
+      alert("Please complete all fields");
+      return;
+  }
+
+  const total=calcBirthday();
+
+  saveBooking({
+    eventType:"Birthday",
+    name, phone, date,
+    hall:hallEl.parentElement.innerText.trim(),
+    food:foodEl.parentElement.innerText.trim(),
+    decor:decorEl.parentElement.innerText.trim(),
+    guests:Number(document.getElementById("b_guests").value||0),
+    total
+  });
+
+  setTimeout(()=>window.location.href="index.html",400);
+});
+</script>
+
+</body>
+</html>

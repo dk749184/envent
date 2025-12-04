@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anniversary Booking</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* GLOBAL PREMIUM CLEAN UI */
+:root{
+    --primary:#8c1c13;
+    --accent:#bf4342;
+    --cream:#f8f5f2;
+    --white:#fff;
+    --radius:14px;
+    --shadow:0 10px 25px rgba(0,0,0,0.10);
+    --text:#333;
+    --muted:#666;
+}
+
+body{
+    margin:0;
+    padding:0;
+    background:var(--cream);
+    font-family:"Poppins",sans-serif;
+    color:var(--text);
+}
+
+/* MAIN PAGE WRAP */
+.wrapper{
+    max-width:900px;
+    background:var(--white);
+    margin:30px auto;
+    padding:32px 34px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+}
+
+/* PAGE HEADER */
+h1{
+    font-size:28px;
+    margin-bottom:20px;
+    font-weight:700;
+    color:var(--primary);
+    text-align:center;
+}
+
+/* SECTION TITLE */
+.section-title{
+    font-size:20px;
+    font-weight:600;
+    color:var(--primary);
+    margin:28px 0 10px;
+    border-left:5px solid var(--accent);
+    padding-left:10px;
+}
+
+/* INPUTS */
+input[type="text"],
+input[type="date"],
+input[type="number"]{
+    width:100%;
+    padding:12px;
+    font-size:15px;
+    border-radius:var(--radius);
+    border:1.6px solid #ccc;
+    margin-bottom:14px;
+    transition:.25s;
+}
+
+input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 6px rgba(140,28,19,0.35);
+    outline:none;
+}
+
+/* RADIO OPTION CARDS */
+.option{
+    display:flex;
+    align-items:center;
+    background:#fff;
+    padding:14px;
+    border-radius:var(--radius);
+    margin-bottom:12px;
+    border:1.8px solid #e4e4e4;
+    transition:.25s;
+    cursor:pointer;
+}
+
+.option:hover{
+    border-color:var(--primary);
+    box-shadow:0 6px 16px rgba(0,0,0,0.08);
+}
+
+.option input{
+    margin-right:12px;
+    width:18px;
+    height:18px;
+    cursor:pointer;
+}
+
+/* TOTAL BOX */
+.total-box{
+    background:#f1e8e5;
+    padding:14px;
+    border-radius:var(--radius);
+    font-size:18px;
+    font-weight:600;
+    margin-top:20px;
+    color:var(--primary);
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    margin-top:20px;
+    padding:14px;
+    font-size:16px;
+    font-weight:600;
+    border:none;
+    border-radius:var(--radius);
+    cursor:pointer;
+    background:var(--primary);
+    color:white;
+    transition:.25s;
+}
+
+button:hover{
+    background:var(--accent);
+    box-shadow:0 6px 16px rgba(191,67,66,0.35);
+}
+
+</style>
+</head>
+
+<body>
+
+<script src="global.js"></script>
+<script>ensureNavbar(); if(!requireLogin()){};</script>
+
+<div class="wrapper">
+
+    <h1>Anniversary Event Booking</h1>
+
+    <!-- PERSONAL INFO -->
+    <div class="section-title">Personal Details</div>
+    <label>Name</label>
+    <input id="an_name" type="text">
+
+    <label>Phone</label>
+    <input id="an_phone" type="text">
+
+    <label>Date</label>
+    <input id="an_date" type="date">
+
+
+    <!-- HALL -->
+    <div class="section-title">Select Hall</div>
+    
+    <label class="option">
+        <input type="radio" name="ahall" value="15000">
+        Balloon Décor Hall — ₹15,000
+    </label>
+
+    <label class="option">
+        <input type="radio" name="ahall" value="25000">
+        Premium Celebration Hall — ₹25,000
+    </label>
+
+
+    <!-- FOOD -->
+    <div class="section-title">Food & Catering</div>
+
+    <label class="option">
+        <input type="radio" name="afood" value="500">
+        Party Snacks — ₹500 / person
+    </label>
+
+    <label class="option">
+        <input type="radio" name="afood" value="1400">
+        Premium Catering — ₹1400 / person
+    </label>
+
+
+    <!-- DECOR -->
+    <div class="section-title">Decoration</div>
+
+    <label class="option">
+        <input type="radio" name="adecor" value="18000">
+        LED Backdrop — ₹18,000
+    </label>
+
+
+    <!-- GUESTS -->
+    <div class="section-title">Number of Guests</div>
+    <input id="an_guests" type="number" value="50">
+
+
+    <!-- TOTAL -->
+    <div class="total-box">
+        Total: <span id="an_total">₹0</span>
+    </div>
+
+
+    <!-- SUBMIT BUTTON -->
+    <button id="an_submit">Submit Booking</button>
+
+</div>
+
+
+<script>
+
+function calcAnn(){
+    const hall = document.querySelector('input[name="ahall"]:checked');
+    const food = document.querySelector('input[name="afood"]:checked');
+    const decor = document.querySelector('input[name="adecor"]:checked');
+    const guests = Number(document.getElementById("an_guests").value || 0);
+
+    let total = 0;
+
+    if(hall) total += Number(hall.value);
+    if(food) total += Number(food.value) * guests;
+    if(decor) total += Number(decor.value);
+
+    document.getElementById("an_total").innerText = "₹" + total.toLocaleString("en-IN");
+    return total;
+}
+
+document.addEventListener("change", calcAnn);
+document.getElementById("an_guests").addEventListener("input", calcAnn);
+
+
+document.getElementById("an_submit").addEventListener("click", function(){
+
+    if(!requireLogin()) return;
+
+    const name = an_name.value.trim();
+    const phone = an_phone.value.trim();
+    const date = an_date.value;
+
+    const hall = document.querySelector('input[name="ahall"]:checked');
+    const food = document.querySelector('input[name="afood"]:checked');
+    const decor = document.querySelector('input[name="adecor"]:checked');
+    const guests = Number(an_guests.value || 0);
+
+    if(!name || !phone || !date || !hall || !food){
+        alert("Please fill all required fields.");
+        return;
+    }
+
+    const total = calcAnn();
+
+    saveBooking({
+        eventType:"Anniversary",
+        name, phone, date,
+        hall: hall.parentElement.innerText.trim(),
+        food: food.parentElement.innerText.trim(),
+        decor: decor ? decor.parentElement.innerText.trim() : "",
+        guests,
+        total
+    });
+
+    setTimeout(()=>window.location.href="index.html",300);
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About – City Event Planner</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ================= YOUR REQUESTED THEME ================= */
+body{
+    font-family:Poppins, sans-serif;
+    background:#F2E8C6;
+    margin:0;
+    padding:18px;
+}
+
+/* MAIN WRAPPER */
+.container{
+    max-width:1100px;
+    margin:20px auto;
+    padding:26px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    text-align:center;  /* ⭐ CENTER EVERYTHING */
+}
+
+/* NAVBAR */
+.navbar{
+    width:100%;
+    background:#A73121;
+    padding:14px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+}
+.navbar .logo{
+    font-size:22px;
+    font-weight:700;
+    color:white;
+}
+.navbar a{
+    color:white;
+    margin:0 14px;
+    text-decoration:none;
+    font-weight:600;
+    position:relative;
+    padding:6px 2px;
+    transition:0.3s ease;
+}
+.navbar a:hover{
+    color:#ffe6d9;
+    transform:translateY(-2px);
+}
+.navbar a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-4px;
+    width:0%;
+    height:3px;
+    background:#fff;
+    border-radius:10px;
+    transition:0.3s ease;
+}
+.navbar a:hover::after{
+    width:100%;
+}
+.navbar a.active::after{
+    width:100%;
+}
+
+/* HEADINGS */
+h1, h2{
+    color:#A73121;
+    margin-top:0;
+    font-weight:700;
+}
+
+/* PARAGRAPH */
+p{
+    color:#333;
+    line-height:1.7;
+    max-width:800px;
+    margin:0 auto 20px; /* center paragraphs */
+}
+
+/* SECTION TITLE */
+.section-title{
+    font-size:22px;
+    font-weight:600;
+    color:#A73121;
+    margin:30px 0 10px;
+    padding-left:0;
+    border-left:none;
+    display:block;
+    text-align:center;
+}
+
+/* LIST */
+ul{
+    padding:0;
+    list-style:none;
+    margin:0 auto 20px;
+}
+ul li{
+    margin-bottom:10px;
+    color:#333;
+    font-size:15px;
+}
+
+/* FOOTER */
+footer{
+    margin-top:20px;
+    color:#8c1c13;
+    font-weight:600;
+    font-style:italic;
+}
+
+span{
+    color:#A73121;
+    font-weight:700;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">City Event Planner</div>
+    <div>
+        <a href="index.html">Home</a>
+        <a class="active" href="about.html">About</a>
+        <a href="our_services.html">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="signin.html">Login</a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <h1>About Us – City Event Planner</h1>
+
+    <p>
+        City Event Planner is a professionally managed event-planning agency dedicated to creating unique, 
+        beautiful, and unforgettable celebrations. Our mission is to deliver seamless and elegant events 
+        that reflect your vision.
+    </p>
+
+    <h3 class="section-title">What We Do</h3>
+    <ul>
+        <li>Wedding Planning (Haldi, Mehandi, Reception)</li>
+        <li>Birthday & Anniversary Celebrations</li>
+        <li>Corporate Events & Launch Parties</li>
+        <li>Theme-based Decorations</li>
+        <li>Catering & Hospitality Services</li>
+    </ul>
+
+    <h3 class="section-title">Why Choose Us</h3>
+    <ul>
+        <li>Creative & Customized Designs</li>
+        <li>Professional and Friendly Team</li>
+        <li>Affordable Packages</li>
+        <li>On-Time Delivery</li>
+        <li>High-Quality Decorations</li>
+    </ul>
+
+    <footer>
+        “Crafting Events with <span>Heart</span>, <span>Elegance</span> & <span>Magic</span>.”
+    </footer>
+
+</div>
+
+</body>
+</html>

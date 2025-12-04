@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Marriage Booking</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+        --primary:#8c1c13;
+        --primary-light:#bf4342;
+        --cream:#f7f4ef;
+        --text:#2b2b2b;
+        --radius:14px;
+        --shadow:0 6px 20px rgba(0,0,0,0.12);
+    }
+
+    body{
+        margin:0;
+        padding:0;
+        background:var(--cream);
+        font-family:"Poppins",sans-serif;
+        color:var(--text);
+    }
+
+    /* MAIN CARD */
+    .card{
+        width:90%;
+        max-width:950px;
+        margin:28px auto;
+        background:#fff;
+        padding:26px;
+        border-radius:var(--radius);
+        box-shadow:var(--shadow);
+    }
+
+    h1{
+        text-align:center;
+        font-size:30px;
+        color:var(--primary);
+        font-weight:700;
+        margin-bottom:20px;
+    }
+
+    /* SECTION TITLE */
+    h3{
+        font-size:20px;
+        color:var(--primary);
+        font-weight:600;
+        margin-top:28px;
+        margin-bottom:10px;
+        border-left:5px solid var(--primary-light);
+        padding-left:10px;
+    }
+
+    /* INPUT FIELDS */
+    input, select{
+        width:100%;
+        padding:12px;
+        border-radius:var(--radius);
+        border:1.6px solid #ccc;
+        font-size:15px;
+        margin-bottom:14px;
+        transition:.3s;
+    }
+    input:focus{
+        border-color:var(--primary);
+        box-shadow:0 0 8px rgba(140,28,19,.35);
+        outline:none;
+    }
+
+    /* GRID OF 4 FIELDS */
+    .grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+        gap:18px;
+    }
+
+    /* RADIO TILE CARDS */
+    .tile-wrap{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:16px;
+        margin-top:8px;
+    }
+
+    .tile{
+        background:#fff;
+        border-radius:var(--radius);
+        padding:14px;
+        border:2px solid transparent;
+        box-shadow:var(--shadow);
+        cursor:pointer;
+        transition:.28s ease;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+    }
+
+    .tile:hover{
+        border-color:var(--primary);
+        transform:translateY(-4px);
+    }
+
+    .tile input{
+        width:18px;
+        height:18px;
+        cursor:pointer;
+    }
+
+    .tile-title{
+        font-size:15px;
+        font-weight:600;
+    }
+
+    /* TOTAL BOX */
+    #totalBox{
+        margin-top:22px;
+        padding:18px;
+        font-size:22px;
+        font-weight:700;
+        background:#fff;
+        border-radius:var(--radius);
+        box-shadow:var(--shadow);
+        color:var(--primary);
+        text-align:center;
+    }
+
+    /* SUBMIT BUTTON */
+    button{
+        width:100%;
+        padding:14px;
+        background:var(--primary);
+        color:#fff;
+        border:none;
+        border-radius:var(--radius);
+        font-size:18px;
+        font-weight:600;
+        margin-top:22px;
+        cursor:pointer;
+        transition:.3s;
+    }
+    button:hover{
+        background:var(--primary-light);
+        transform:translateY(-3px);
+    }
+  </style>
+
+</head>
+<body>
+
+<script src="global.js"></script>
+<script>ensureNavbar(); if(!requireLogin()){}</script>
+
+<div class="card">
+
+  <h1>Marriage Event Booking</h1>
+
+  <!-- Bride & Groom -->
+  <h3>Bride & Groom Details</h3>
+  <div class="grid">
+    <div>
+      <label>Bride Name</label>
+      <input id="bride" placeholder="Bride Full Name">
+    </div>
+    <div>
+      <label>Groom Name</label>
+      <input id="groom" placeholder="Groom Full Name">
+    </div>
+    <div>
+      <label>Contact</label>
+      <input id="contact" placeholder="+91 phone">
+    </div>
+    <div>
+      <label>Wedding Date</label>
+      <input id="date" type="date">
+    </div>
+  </div>
+
+  <!-- Venue -->
+  <h3>Select Venue</h3>
+  <div class="tile-wrap">
+    <label class="tile">
+      <span class="tile-title">Royal Palace — ₹50,000</span>
+      <input type="radio" name="hall" value="50000">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Maharaja Banquet — ₹80,000</span>
+      <input type="radio" name="hall" value="80000">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Grand Resort — ₹1,20,000</span>
+      <input type="radio" name="hall" value="120000">
+    </label>
+  </div>
+
+  <!-- Catering -->
+  <h3>Catering (per plate)</h3>
+  <div class="tile-wrap">
+    <label class="tile">
+      <span class="tile-title">Veg Deluxe — ₹600</span>
+      <input type="radio" name="food" value="600">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Premium Veg — ₹900</span>
+      <input type="radio" name="food" value="900">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Royal Non-Veg — ₹1200</span>
+      <input type="radio" name="food" value="1200">
+    </label>
+  </div>
+
+  <!-- Decoration -->
+  <h3>Decoration</h3>
+  <div class="tile-wrap">
+    <label class="tile">
+      <span class="tile-title">Floral Basic — ₹20,000</span>
+      <input type="radio" name="decor" value="20000">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Royal Theme — ₹35,000</span>
+      <input type="radio" name="decor" value="35000">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Grand Luxury — ₹50,000</span>
+      <input type="radio" name="decor" value="50000">
+    </label>
+  </div>
+
+  <!-- Stage -->
+  <h3>Stage Setup</h3>
+  <div class="tile-wrap">
+    <label class="tile">
+      <span class="tile-title">Basic Stage — ₹15,000</span>
+      <input type="radio" name="stage" value="15000">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Premium Light — ₹30,000</span>
+      <input type="radio" name="stage" value="30000">
+    </label>
+
+    <label class="tile">
+      <span class="tile-title">Grand LED — ₹50,000</span>
+      <input type="radio" name="stage" value="50000">
+    </label>
+  </div>
+
+  <!-- Guests -->
+  <div style="margin-top:20px">
+    <label>No. of Guests</label>
+    <input id="guests" type="number" value="200" min="1">
+  </div>
+
+  <!-- Total -->
+  <div id="totalBox">₹0</div>
+
+  <!-- Submit -->
+  <button id="confirmMarriage">Confirm Booking</button>
+
+</div>
+
+<script>
+function calcTotal(){
+  const hall = document.querySelector('input[name="hall"]:checked');
+  const food = document.querySelector('input[name="food"]:checked');
+  const decor = document.querySelector('input[name="decor"]:checked');
+  const stage = document.querySelector('input[name="stage"]:checked');
+  const guests = Number(document.getElementById("guests").value || 0);
+  let total = 0;
+
+  if(hall) total += Number(hall.value);
+  if(food) total += Number(food.value) * guests;
+  if(decor) total += Number(decor.value);
+  if(stage) total += Number(stage.value);
+
+  document.getElementById("totalBox").innerText = "₹" + total.toLocaleString('en-IN');
+  return total;
+}
+
+document.addEventListener("change", calcTotal);
+document.getElementById("guests").addEventListener("input", calcTotal);
+
+document.getElementById("confirmMarriage").addEventListener("click", function(){
+  if(!requireLogin()) return;
+
+  const bride = document.getElementById("bride").value.trim();
+  const groom = document.getElementById("groom").value.trim();
+  const contact = document.getElementById("contact").value.trim();
+  const date = document.getElementById("date").value;
+
+  const hallEl = document.querySelector('input[name="hall"]:checked');
+  const foodEl = document.querySelector('input[name="food"]:checked');
+  const decorEl = document.querySelector('input[name="decor"]:checked');
+  const stageEl = document.querySelector('input[name="stage"]:checked');
+
+  if(!bride || !groom || !contact || !date || !hallEl || !foodEl || !decorEl || !stageEl){
+    alert("Please fill all details and make selections.");
+    return;
+  }
+
+  const guests = Number(document.getElementById("guests").value || 0);
+  const total = calcTotal();
+
+  saveBooking({
+    eventType: "Marriage",
+    brideName: bride,
+    groomName: groom,
+    contact, date,
+    hall: hallEl.parentElement.innerText.trim(),
+    food: foodEl.parentElement.innerText.trim() + ` (x${guests})`,
+    decor: decorEl.parentElement.innerText.trim(),
+    stage: stageEl.parentElement.innerText.trim(),
+    guests, total
+  });
+
+  setTimeout(()=>{ window.location.href = "index.html"; }, 400);
+});
+</script>
+
+</body>
+</html>

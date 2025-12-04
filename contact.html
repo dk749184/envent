@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact Us</title>
+
+<style>
+/* ================= GLOBAL PREMIUM UI ================= */
+:root{
+    --primary:#8c1c13;
+    --primary-light:#bf4342;
+    --cream:#f3e9dc;
+    --text:#2b2b2b;
+    --white:#fff;
+    --radius:14px;
+    --shadow:0 6px 22px rgba(0,0,0,0.14);
+}
+
+/* BODY */
+body{
+    margin:0;
+    padding:0;
+    font-family:"Poppins",sans-serif;
+    background:linear-gradient(135deg,#ffe6e6,#fff2cc,#e8f6ff);
+    color:var(--text);
+}
+
+/* MAIN CARD */
+.card{
+    max-width:520px;
+    margin:40px auto;
+    background:var(--white);
+    padding:28px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+.card:hover{ transform:translateY(-3px); }
+
+/* HEADING */
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:var(--primary);
+    font-weight:700;
+    font-size:28px;
+}
+
+/* LABEL */
+label{
+    font-weight:600;
+    font-size:14px;
+    color:#444;
+}
+
+/* INPUT + TEXTAREA */
+input, textarea{
+    width:92%;
+    padding:12px;
+    margin-top:6px;
+    margin-bottom:14px;
+    border-radius:var(--radius);
+    border:1.6px solid #ccc;
+    font-size:15px;
+    transition:.25s;
+    background:#fffaf7;
+}
+input:focus, textarea:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 6px rgba(140,28,19,0.3);
+    outline:none;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    border-radius:var(--radius);
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+button:hover{
+    background:var(--primary-light);
+    transform:translateY(-3px);
+    box-shadow:var(--shadow);
+}
+
+/* RESULT TEXT */
+#ct_result{
+    margin-top:12px;
+    text-align:center;
+    font-weight:600;
+    color:green;
+}
+</style>
+
+</head>
+
+<body>
+
+<script src="global.js"></script>
+<script>ensureNavbar();</script>
+
+<div class="card">
+    <h1>Contact Us</h1>
+
+    <form id="contactForm">
+
+        <label>Name</label>
+        <input id="ct_name" type="text" placeholder="Your name">
+
+        <label>Contact</label>
+        <input id="ct_phone" type="text" placeholder="Phone number">
+
+        <label>Email</label>
+        <input id="ct_email" type="email" placeholder="Email address">
+
+        <label>Message</label>
+        <textarea id="ct_message" rows="4" placeholder="Write your message here..."></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+
+    <p id="ct_result"></p>
+</div>
+
+<script>
+document.getElementById("contactForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("ct_name").value.trim();
+  const phone = document.getElementById("ct_phone").value.trim();
+  const email = document.getElementById("ct_email").value.trim();
+  const message = document.getElementById("ct_message").value.trim();
+
+  if(!name || !phone || !email || !message){
+      alert("Please complete all fields.");
+      return;
+  }
+
+  const messages = JSON.parse(localStorage.getItem("cep_messages") || "[]");
+  messages.push({
+      id: Date.now(),
+      name,
+      phone,
+      email,
+      message,
+      timestamp: new Date().toISOString()
+  });
+
+  localStorage.setItem("cep_messages", JSON.stringify(messages));
+
+  document.getElementById("ct_result").innerText = "Message sent — we’ll get back to you soon!";
+  this.reset();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Panel - Bookings</title>
+
+<style>
+/* ================== PROFESSIONAL ADMIN DASHBOARD THEME ================== */
+:root{
+    --primary:#8c1c13;
+    --accent:#bf4342;
+    --bg:#f3f2ef;
+    --white:#fff;
+    --radius:12px;
+    --shadow:0 8px 20px rgba(0,0,0,0.12);
+    --text:#333;
+    --muted:#777;
+}
+
+body{
+    margin:0;
+    padding:0;
+    font-family:"Poppins",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* Wrapper */
+.wrap{
+    max-width:1150px;
+    margin:30px auto;
+    padding:20px;
+}
+
+/* Title */
+h1{
+    font-size:28px;
+    margin-bottom:18px;
+    color:var(--primary);
+    font-weight:700;
+}
+
+/* Table container card */
+.table-card{
+    background:var(--white);
+    padding:18px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow-x:auto;
+}
+
+/* Table styling */
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th{
+    background:var(--primary);
+    color:white;
+    padding:12px;
+    text-align:left;
+    font-size:14px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+}
+
+/* Status Badge */
+.status{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    width:max-content;
+}
+
+.status.pending{ background:#f7d7a3; color:#8c5a00; }
+.status.accepted{ background:#d6f5df; color:#1e8a3d; }
+.status.rejected{ background:#ffd3d3; color:#c62828; }
+
+/* Action Buttons */
+.actions button{
+    padding:6px 10px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:600;
+    margin-right:6px;
+    transition:.25s;
+}
+
+.actions .accept{ background:#1e8a3d; color:#fff; }
+.actions .reject{ background:#c62828; color:#fff; }
+.actions .del{ background:#555; color:#fff; }
+
+.actions button:hover{
+    opacity:0.85;
+    transform:translateY(-2px);
+}
+
+/* Messages Section */
+.messages-box{
+    margin-top:30px;
+    background:var(--white);
+    padding:18px;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+}
+
+.message-item{
+    padding:12px 4px;
+    border-bottom:1px dashed #ddd;
+}
+
+.message-item strong{
+    color:var(--primary);
+}
+.message-item small{
+    color:var(--muted);
+}
+
+/* Responsive */
+@media(max-width:650px){
+    h1{ font-size:22px; }
+}
+
+</style>
+</head>
+
+<body>
+
+<script src="global.js"></script>
+<script>
+    ensureNavbar();
+    const cur = getCurrentUser();
+    if(!cur || cur.role !== "admin"){
+        alert("Admin only area");
+        window.location.href="signin.html";
+    }
+</script>
+
+<div class="wrap">
+
+    <h1>📊 Admin Panel — Bookings</h1>
+
+    <!-- ============== BOOKINGS TABLE ============== -->
+    <div class="table-card">
+        <table id="bookingsTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Event</th>
+                    <th>Primary Name</th>
+                    <th>Contact</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="bookingTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- ============== MESSAGES ============== -->
+    <h2 style="margin-top:28px;color:var(--primary)">📩 Messages</h2>
+
+    <div id="messagesArea" class="messages-box"></div>
+
+</div>
+
+
+<script>
+function renderAdmin(){
+    const rows = window._cep.loadBookingsForAdmin();
+    const tbody = document.getElementById("bookingTableBody");
+    tbody.innerHTML = "";
+
+    rows.forEach((b,i)=>{
+        const primary = b.eventType==="Marriage" ? (b.brideName||"") : (b.name||b.briefName||"");
+        const contact = b.contact || b.phone || b.email || "";
+        const date = b.date || b.timestamp;
+        const details = JSON.stringify(b, null, 0);
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${i+1}</td>
+            <td>${b.eventType}</td>
+            <td>${primary}</td>
+            <td>${contact}</td>
+            <td>${date||""}</td>
+            <td style="max-width:240px;overflow:auto;font-size:12px"><small>${details}</small></td>
+            <td>₹${b.total?.toLocaleString("en-IN") || "N/A"}</td>
+            <td><span class="status ${b.status}">${b.status}</span></td>
+            <td class="actions">
+                <button class="accept" onclick="acceptBooking(${b.id})">Accept</button>
+                <button class="reject" onclick="rejectBooking(${b.id})">Reject</button>
+                <button class="del" onclick="deleteBooking(${b.id})">Delete</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    // messages
+    const messages = JSON.parse(localStorage.getItem("cep_messages") || "[]");
+    const area = document.getElementById("messagesArea");
+    if(messages.length===0){
+        area.innerHTML = "<p style='color:#888'>No messages yet</p>";
+    } else {
+        area.innerHTML = messages.map(m => `
+            <div class="message-item">
+                <strong>${m.name}</strong> (${m.email})<br>
+                ${m.message}<br>
+                <small>${new Date(m.timestamp).toLocaleString()}</small>
+            </div>
+        `).join("");
+    }
+}
+
+renderAdmin();
+</script>
+
+</body>
+</html>
